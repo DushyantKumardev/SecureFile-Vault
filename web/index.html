@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SecureFile Vault</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+      // Prevent WebView2/Chromium elastic stretch bounce (spring scrolling)
+      document.addEventListener('wheel', function (e) {
+        // 1. Immediately eliminate horizontal stretch
+        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+          e.preventDefault();
+          return;
+        }
+
+        // 2. Find scrollable container under cursor
+        var target = e.target;
+        var scrollable = null;
+        while (target && target !== document.body && target !== document.documentElement) {
+          var style = window.getComputedStyle(target);
+          if ((style.overflowY === 'auto' || style.overflowY === 'scroll') && target.scrollHeight > target.clientHeight) {
+            scrollable = target;
+            break;
+          }
+          target = target.parentElement;
+        }
+
+        // 3. Block overscroll on static containers (Sidebar, Header, StatusBar)
+        if (!scrollable) {
+          e.preventDefault();
+          return;
+        }
+
+        // 4. Block boundaries on scrollable containers to stop spring pull
+        var atTop = scrollable.scrollTop <= 0 && e.deltaY < 0;
+        var atBottom = (scrollable.scrollTop + scrollable.clientHeight >= scrollable.scrollHeight - 1) && e.deltaY > 0;
+        if (atTop || atBottom) {
+          e.preventDefault();
+        }
+      }, { passive: false });
+    </script>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

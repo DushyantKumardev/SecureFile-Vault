@@ -1,0 +1,39 @@
+# Binaries and build artifacts
+build/
+bin/
+*.exe
+*.o
+*.obj
+*.res
+*.dll
+
+
+PROJECT_SUMMARY.md
+
+# Web frontend dependencies & output
+web/node_modules/
+web/dist/
+web/dist-ssr/
+*.local
+
+# Logs and runtime data
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Test data & temporary backups
+testdata/
+*.backup
+*.backup_*
+*.decrypted
+
+# IDE and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
